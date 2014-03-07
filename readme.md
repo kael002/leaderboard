@@ -12,20 +12,20 @@ My criteria is as follows:
 
 ##Parameters
 - max
---Default : 10
---Indicates the number of items shown in the list
+	- --Default --: 10
+	- Indicates the number of items shown in the list
 - interval
---Default : 10
---Time in seconds to poll new data
+	- --Default-- : 10
+	- Time in seconds to poll new data
 -elemId
---Default : ''leaderboard''
---The element that the leaderboard will be inserted into. If the element can not be found, an empty div will be created and attached to the end of the document.
+	- --Default --: ''leaderboard''
+	- The element that the leaderboard will be inserted into. If the element can not be found, an empty div will be created and attached to the end of the document.
 -sort
---Default : "sort"
---Name of the attribute in the polled data that the list is sorted on.
+	- --Default--: "sort"
+	-Name of the attribute in the polled data that the list is sorted on.
 -display
---Default : function that returns a string representation of the data item
---Use this to define a function which formats the contents of each item in the list. The function will pass in a single argument that is an item object. You may return a string or an dom element
+	- --Default--: function that returns a string representation of the data item
+	- Use this to define a function which formats the contents of each item in the list. The function will pass in a single argument that is an item object. You may return a string or an dom element
 
 return string
 ```js
@@ -46,5 +46,5 @@ function(item){
 }
 ```
 -dataCall
---Default : function that returns empty array
---This is the function that is call periodically which expects a return of an array;
+	- --Default--: function that returns empty array
+	- This is the function that is call periodically which expects a return of an array;
