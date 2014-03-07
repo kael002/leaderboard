@@ -26,15 +26,16 @@ Name of the attribute in the polled data that the list is sorted on.
 ###display
 ####Default : function that returns a string representation of the data item
 Use this to define a function which formats the contents of each item in the list. The function will pass in a single argument that is an item object. You may return a string or an dom element
-<code>
-// assume item = {id:1,name:"Derp",orrder:2,type:"Bonk"}
 
-// return string
+return string
+```js
+// assume item = {id:1,name:"Derp",orrder:2,type:"Bonk"}
 function(item){
 	return "Text displayed " + item.name + " and is a " + item.type + "!";
 }
-
-// or return elem
+```
+or return elem
+```js
 function(item){
 	var elem = document.createElement("div"),
 		elName = elem.appendChild(document.createElement("span")),
@@ -43,7 +44,7 @@ function(item){
 	elType.innerHTML = item.type;
 	return elem;
 }
-</code>
+```
 ###dataCall
 ####Default : function that returns empty array
 This is the function that is call periodically which expects a return of an array;
