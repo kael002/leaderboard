@@ -17,13 +17,13 @@ My criteria is as follows:
 - interval
 	- Default: 10
 	- Time in seconds to poll new data
--elemId
+- elemId
 	- Default: ''leaderboard''
 	- The element that the leaderboard will be inserted into. If the element can not be found, an empty div will be created and attached to the end of the document.
--sort
+- sort
 	- Default: "sort"
 	- Name of the attribute in the polled data that the list is sorted on.
--display
+- display
 	- Default: function that returns a string representation of the data item
 	- Use this to define a function which formats the contents of each item in the list. The function will pass in a single argument that is an item object. You may return a string or an dom element
 
@@ -45,6 +45,6 @@ function(item){
 	return elem;
 }
 ```
--dataCall
+- dataCall
 	- Default: function that returns empty array
 	- This is the function that is call periodically which expects a return of an array;
