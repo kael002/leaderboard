@@ -3,24 +3,56 @@
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
+body {
+	background:#555;
+}
+
 #leaderboard{
-	border: 1px solid #333;
 	width:400px;
+	border:3px solid #000;
+	border-radius: 20px;
+	padding:10px;
 }
 #leaderboard ul{
 	position:relative;
 	list-style: none;
-	padding:0;
 	margin:0;
+	padding:0;
 }
 #leaderboard ul li{
 	position:absolute;
 	display:block;
 	width:100%;
 	padding:10px;
+	border-radius:5px;
 	background: linear-gradient(to top,rgb(20,20,20) 0%, rgb(80,80,80) 100%);
 	border-bottom:2px solid #666;
 	border-top:2px solid #666;
-	color:#AADDAA;
-	transition: top cubic-bezier(1.000, -0.530, 0.405, 1.425) 2s;
+	color:#FD9C20;
+	opacity: 1;
+	transition: top cubic-bezier(1.000, -0.530, 0.405, 1.425) 3s;
+}
+#leaderboard li span {
+	float:right;
+	color:red;
+}
+
+#leaderboard .move{
+	text-shadow: 0px 0px 10px rgba(200,200,255,1.0);
+}
+
+#leaderboard .replace{
+	animation: replace 2s;
+	-webkit-animation: replace 2s; /* Safari and Chrome */
+}
+
+@keyframes replace
+{
+	0% {left: -500px;opacity:0;}
+	100% {left: 0px;opacity:1;}
+}
+@-webkit-keyframes replace
+{
+	0% {left: -500px;opacity:0;}
+	100% {left: 0px;opacity:1;}
 }

@@ -12,6 +12,7 @@
 			interval:10,
 			elemId:'leaderboard',
 			sort:'sort',
+			transitionClass:'move',
 			display:function(data){
 				return data.toString();
 			},
@@ -47,7 +48,9 @@
 		getData:function(){
 			var that = this;
 			this.data = this.config.dataCallback();
-
+			this.data.sort(function(a,b){
+				return b[that.config.sort] - a[that.config.sort];
+			});
 			this.data =  this.config.max > this.data.length?this.data: this.data.slice(0, this.config.max);
 			//do something about the uiList when it's shorter than max
 			if (this.data.length !== this.uiList.length){
@@ -66,6 +69,10 @@
 					content:'',
 					sort:0
 				});
+				// this.uiList[i].elem.addEventListener('webkitTransitionEnd',function(){
+				// 	this.className = "";
+				// }); // I can not get this to fire on all elements as some of them do not move.. therefore do not trigger
+				this.uiList[i].elem.style.top = "0px";
 				this.uiList[i].elem.innerHTML = "Loading...";
 			}
 			return this;
@@ -77,18 +84,23 @@
 				heights = [],
 				replaceElem = [],
 				that = this;
+
 			replaceElem = this.data.difference(this.uiList,function(a,b){
 				return a.id === b.id;
 			});
 			this.uiList.forEach(function(v,i,a){
 				var	uiIndex,nextAvailable;
+
 				uiIndex = BFG.ArrayIndexOf(that.data,v.id,function(a,b){
 					return a === b.id;
 				});
+
 				if (uiIndex >= 0){
+					v.elem.classList.add("move");
 					v.sort = that.data[uiIndex][that.config.sort];
 					that.display(v.elem,that.data[uiIndex]);
 				}else{
+					v.elem.classList.add("replace");
 					nextAvailable = replaceElem.shift();
 					v.id = nextAvailable.id;
 					that.display(v.elem,nextAvailable);
@@ -96,11 +108,14 @@
 				}
 			});
 			this.uiList.sort(function(a,b){
-				return a.sort - b.sort;
+				return b.sort - a.sort;
 			});
 			this.uiList.forEach(function(v,i,a){
 				heights .push(i>0?that.uiList[i-1].elem.offsetHeight+heights[i-1] :0);
-				v.elem.style.top = heights[i]+ "px";
+				v.elem.style.top = heights[i] + "px";
+				setTimeout(function(){ // terrible hack.. my attempted transistionEnd event does not fire on all elements
+					v.elem.className = "";
+				},2000);
 			});
 			this.ul.style.height = (heights[heights.length - 1] + this.uiList[this.uiList.length - 1].elem.offsetHeight )+ "px";
 			return this;
@@ -124,10 +139,13 @@
 
 var test = new BFG.Leaderboard({
 	interval:10,
-	max:5,
-	display:function(data){
-		var content = document.createElement('div');
-		content.innerHTML = "(" + data.count + ") " + data.title;
+	max:10,
+	display:function(item){
+		var 	span,
+			content = document.createElement('div');
+		content.innerHTML = item.title;
+		span = content.appendChild(document.createElement('span'));
+		span.innerHTML = item.count;
 		return content;
 	},
 	sort:'count',
