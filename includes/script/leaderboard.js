@@ -12,6 +12,7 @@
 			interval:10,
 			elemId:'leaderboard',
 			sort:'sort',
+			margin:0,
 			transitionClass:'move',
 			display:function(data){
 				return data.toString();
@@ -111,13 +112,13 @@
 				return b.sort - a.sort;
 			});
 			this.uiList.forEach(function(v,i,a){
-				heights .push(i>0?that.uiList[i-1].elem.offsetHeight+heights[i-1] :0);
+				heights .push(i>0?that.uiList[i-1].elem.offsetHeight + heights[i-1] + that.config.margin :0);
 				v.elem.style.top = heights[i] + "px";
 				setTimeout(function(){ // terrible hack.. my attempted transistionEnd event does not fire on all elements
 					v.elem.className = "";
 				},2000);
 			});
-			this.ul.style.height = (heights[heights.length - 1] + this.uiList[this.uiList.length - 1].elem.offsetHeight )+ "px";
+			this.ul.style.height = (heights[heights.length - 1] + this.uiList[this.uiList.length - 1].elem.offsetHeight  + that.config.margin)+ "px";
 			return this;
 		},
 		display:function(elem,data){
@@ -140,12 +141,15 @@
 var test = new BFG.Leaderboard({
 	interval:10,
 	max:10,
+	margin:5,
 	display:function(item){
-		var 	span,
-			content = document.createElement('div');
-		content.innerHTML = item.title;
-		span = content.appendChild(document.createElement('span'));
+		var 	content = document.createElement('div'),
+			a = content.appendChild(document.createElement('a')),
+			span = document.createElement('span');
+		a.innerHTML = item.title;
+		a.href = "#";
 		span.innerHTML = item.count;
+		a.appendChild(span);
 		return content;
 	},
 	sort:'count',
