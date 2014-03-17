@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Leaderboard by kael002</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Leaderboard</h1>
+        <h2>Leaderboard addon</h2>
+        <a href="https://github.com/kael002/leaderboard" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="introduction-to-leaderboard" class="anchor" href="#introduction-to-leaderboard"><span class="octicon octicon-link"></span></a>Introduction to Leaderboard</h1>
+
+<p>This project is mainly for me to sharpen my UI skillz. I decided to build a leaderboard that could take periodic data, build a list, and rearrange the with each data push.
+My criteria is as follows:</p>
+
+<ul>
+<li>Pure js - no jQuery, _, etc.</li>
+<li>Pure CSS3 - no pre-processors</li>
+<li>Minimal HTML</li>
+<li>periodically requests data</li>
+<li>builds html "list"</li>
+<li>orders "list" based on a sort order (given by data)</li>
+<li>allow coder to specify HTML in each "list" item</li>
+<li>CSS controls animation of transitions</li>
+</ul><h2>
+<a name="parameters" class="anchor" href="#parameters"><span class="octicon octicon-link"></span></a>Parameters</h2>
+
+<ul>
+<li>max
+
+<ul>
+<li>Default: 10</li>
+<li>Indicates the number of items shown in the list</li>
+</ul>
+</li>
+<li>interval
+
+<ul>
+<li>Default: 10</li>
+<li>Time in seconds to poll new data</li>
+</ul>
+</li>
+<li>elemId
+
+<ul>
+<li>Default: ''leaderboard''</li>
+<li>The element that the leaderboard will be inserted into. If the element can not be found, an empty div will be created and attached to the end of the document.</li>
+</ul>
+</li>
+<li>sort
+
+<ul>
+<li>Default: "sort"</li>
+<li>Name of the attribute in the polled data that the list is sorted on.</li>
+</ul>
+</li>
+<li>
+<p>display</p>
+
+<ul>
+<li>Default: function that returns a string representation of the data item</li>
+<li><p>Use this to define a function which formats the contents of each item in the list. The function will pass in a single argument that is an item object. You may return a string or an dom element</p></li>
+<li><p>return string</p></li>
+</ul>
+</li>
+</ul><div class="highlight highlight-js"><pre><span class="c1">// assume item = {id:1,name:"Derp",orrder:2,type:"Bonk"}</span>
+<span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">){</span>
+    <span class="k">return</span> <span class="s2">"Text displayed "</span> <span class="o">+</span> <span class="nx">item</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">" and is a "</span> <span class="o">+</span> <span class="nx">item</span><span class="p">.</span><span class="nx">type</span> <span class="o">+</span> <span class="s2">"!"</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<pre><code>- or return elem
+</code></pre>
+
+<div class="highlight highlight-js"><pre><span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">"div"</span><span class="p">),</span>
+        <span class="nx">elName</span> <span class="o">=</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">"span"</span><span class="p">)),</span>
+        <span class="nx">elType</span> <span class="o">=</span> <span class="nx">elem</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">"span"</span><span class="p">));</span>
+    <span class="nx">elName</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+    <span class="nx">elType</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">type</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">elem</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<ul>
+<li>dataCall
+
+<ul>
+<li>Default: function that returns empty array</li>
+<li>This is the function that is call periodically which expects a return of an array;</li>
+</ul>
+</li>
+</ul>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/kael002/leaderboard/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/kael002/leaderboard/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/kael002/leaderboard"></a> is maintained by <a href="https://github.com/kael002">kael002</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
